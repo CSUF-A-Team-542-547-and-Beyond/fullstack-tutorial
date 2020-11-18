@@ -1,6 +1,7 @@
 import React from 'react';
-
-import { render, cleanup } from '../../test-utils';
+import { mount, shallow, render } from 'enzyme';	//added for shallow rendering
+//import { render, cleanup } from '../../test-utils';
+import { cleanup } from '../../test-utils';
 import Header from '../header';
 
 describe('Header', () => {
@@ -8,6 +9,7 @@ describe('Header', () => {
   afterEach(cleanup);
 
   it('renders without error', () => {
-    render(<Header />);
+    //render(<Header />);
+    const wrapper = shallow(<Header />);
   });
 });

@@ -1,6 +1,7 @@
 import React from 'react';
-
-import { renderApollo, cleanup } from '../../test-utils';
+import { mount, shallow, render } from 'enzyme';	//added for shallow rendering
+//import { renderApollo, cleanup } from '../../test-utils';
+import { cleanup } from '../../test-utils';
 import Footer from '../footer';
 
 describe('Footer', () => {
@@ -8,6 +9,7 @@ describe('Footer', () => {
   afterEach(cleanup);
 
   it('renders without error', () => {
-    renderApollo(<Footer />);
+    //renderApollo(<Footer />);
+    const wrapper = shallow(<Footer />);
   });
 });

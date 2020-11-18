@@ -1,6 +1,7 @@
 import React from 'react';
-
-import { render, cleanup } from '../../test-utils';
+import { mount, shallow, render } from 'enzyme';	//added for shallow rendering
+//import { render, cleanup } from '../../test-utils';
+import { cleanup } from '../../test-utils';
 import LoginForm from '../login-form';
 
 describe('Login Form', () => {
@@ -8,6 +9,7 @@ describe('Login Form', () => {
   afterEach(cleanup);
 
   it('renders without error', () => {
-    render(<LoginForm login={() => {}}/>);
+    //render(<LoginForm login={() => {}}/>);
+    const wrapper = shallow(<LoginForm login={() => {}}/>);
   });
 });

@@ -1,6 +1,7 @@
 import React from 'react';
-
-import { render, cleanup } from '../../test-utils';
+import { mount, shallow, render } from 'enzyme';	//added for shallow rendering
+//import { render, cleanup } from '../../test-utils';
+import { cleanup } from '../../test-utils';
 import MenuItem from '../menu-item';
 
 describe('Menu Item', () => {
@@ -8,6 +9,7 @@ describe('Menu Item', () => {
   afterEach(cleanup);
 
   it('renders without error', () => {
-    render(<MenuItem to="/wow" />);
+    //render(<MenuItem to="/wow" />);
+    const wrapper = shallow(<MenuItem to="/wow" />);
   });
 });

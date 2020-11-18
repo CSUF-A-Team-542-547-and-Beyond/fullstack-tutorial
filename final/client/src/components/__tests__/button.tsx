@@ -1,6 +1,7 @@
 import React from 'react';
-
-import { render, cleanup } from '../../test-utils';
+import { mount, shallow, render } from 'enzyme';	//added for shallow rendering
+//import { render, cleanup } from '../../test-utils';
+import { cleanup } from '../../test-utils';
 import Button from '../button';
 
 describe('Button', () => {
@@ -8,6 +9,7 @@ describe('Button', () => {
   afterEach(cleanup);
 
   it('renders without error', () => {
-    render(<Button>Hello World</Button>);
+    //render(<Button>Hello World</Button>);
+    const wrapper = shallow(<Button>Hello World</Button>);
   });
 });

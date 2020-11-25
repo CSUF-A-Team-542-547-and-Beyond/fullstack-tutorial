@@ -7,6 +7,16 @@ const By = webdriver.By;
 const defaultTimeout=5000;
 const sleeptime = 2000; //how long to wait after each command to make tests visually percievable 
 
+// jest.config.js
+module.exports = {
+    // setupTestFrameworkScriptFile has been deprecated in
+    // favor of setupFilesAfterEnv in jest 24
+    setupFilesAfterEnv: ['./jest.setup.js']
+  }
+  
+  // jest.setup.js
+  jest.setTimeout(100000)
+
 /*To Do:
 Catching Timeout errors
 */
@@ -37,11 +47,25 @@ var Locators = {
     StarLink14: By.xpath("//*[@href='/launch/105']"),
     GenericLaunch: By.xpath("//*[contains(@href,'/launch/')]"),
 }
+
 async function checkAmountOfElementsWithLocator(locator, numberExpected, webdriver=driver){
     var elements = (await webdriver.findElements(locator)).length;
     console.log(elements);
     return elements==numberExpected;
   }
+
+
+async function bestLaCroixFlavor(){
+    return 'grapefruit'
+}
+// test
+//test('the data is peanut butter', () => {
+//    return checkAmountOfElementsWithLocator().then(data => {
+//      expect(data).toBe(22);
+//    });
+//  });
+// test end
+
 async function checkElementHasText(locator, text, timeout=defaultTimeout, webdriver=driver){
     var elemHasText;
     return await webdriver.wait(function(){
@@ -134,10 +158,7 @@ async function clickWhenClickable(locator,timeout=defaultTimeout, webdriver=driv
         );   
     }
     checkElementExists(locator, timeout=defaultTimeout){
-        var that = this;
-        this.ActionList.push(
-            function() {return elementExists(locator, timeout, that.driver);}
-        );
+        return elementExists(locator, timeout, this.driver);
     }
     click(locator, timeout=defaultTimeout){
         var that=this;
@@ -182,6 +203,8 @@ async function login(testDriver, email){
     testDriver.click(By.xpath("//*[contains(@type, 'submit')]")); //press submit button
     await testDriver.execute();
 }
+
+
 async function logout(testDriver, failOnError=false){
     testDriver.click(Locators.LogOut);
     await testDriver.execute(failOnError);
@@ -206,7 +229,7 @@ async function loadChecks(testDriver, failOnError=false){
     testDriver.checkText(Locators.UserName,"ValidEmail@ValidWebsite" );
 }
 
-async function testDriver(){
+async function testDriverfunc(){
     var testDriver = new DriverWrapper(driver);
     //Test Bad Login
     await login(testDriver, "ThisEmailAddressHasNoAt" );
@@ -222,7 +245,6 @@ async function testDriver(){
     await urlChecks(testDriver);
 
     await loadChecks(testDriver);
-
     
     testDriver.click(Locators.Sacagawea);
     testDriver.click(Locators.AddToCart);
@@ -242,43 +264,3 @@ async function testDriver(){
 }
 
 testDriver();
-
-
-//Old ways (for reference only)
-function LogInLogOutTest(driver){
-    try{
-        driver.navigate().to("http://localhost:3000");
-        driver.sleep(sleeptime).then(()=> {
-            sendKeysWhenSendable(By.name('email'),"Email@site.com" ).then(()=>{ 
-                driver.sleep(sleeptime).then(()=> {
-                    clickWhenClickable(By.xpath('/html/body/div/div/form/button'), 10*1000).then(()=>{
-                        driver.sleep(sleeptime).then(()=> {
-                            clickWhenClickable(By.xpath("//*[contains(@data-testid, 'logout')]"), 10*1000); 
-                        }); 
-                    }); 
-                });
-            });
-        });
-        
-    }
-    catch(e){
-        console.log(e);
-    }
-
-}
-async function LogInLogOutTestAsync(driver){
-    try{
-        await driver.navigate().to("http://localhost:3000");
-        await driver.sleep(sleeptime)
-        await sendKeysWhenSendable(By.name('email'),"Email@site.com" )
-        await driver.sleep(sleeptime)
-        await clickWhenClickable(By.xpath('/html/body/div/div/form/button'), defaultTimeout)
-        await driver.sleep(sleeptime)
-        await clickWhenClickable(By.xpath("//*[contains(@data-testid, 'logout')]"), defaultTimeout);      
-    }
-    catch(e){
-        console.log(e);
-    }
-
-}
-// LogInLogOutTestAsync(driver);

@@ -15,7 +15,7 @@ module.exports = {
   }
   
   // jest.setup.js
-  jest.setTimeout(30000)
+  jest.setTimeout(40000)
 
 /*To Do:
 Catching Timeout errors
